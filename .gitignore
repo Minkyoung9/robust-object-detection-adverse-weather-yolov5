@@ -24,7 +24,7 @@
 !cfg/yolov3*.cfg
 
 storage.googleapis.com
-runs/*
+runs0/*
 data/*
 data/images/*
 !data/*.yaml
@@ -41,6 +41,10 @@ results*.csv
 coco/
 coco128/
 VOC/
+BDD100k/
+bdd100k/
+DAWN/
+dawn/
 
 # MATLAB GitIgnore -----------------------------------------------------------------------------------------------------
 *.m~
@@ -70,6 +74,10 @@ yolov3-tiny.conv.15
 __pycache__/
 *.py[cod]
 *$py.class
+eval_sgod.py
+eval_v3.py
+eval_v5.py
+sdgod_eval_results.csv
 
 # C extensions
 *.so
