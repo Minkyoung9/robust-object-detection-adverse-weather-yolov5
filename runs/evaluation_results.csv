@@ -1,0 +1,8 @@
+weather avg_P avg_R avg_mAP50 avg_mAP50-95
+, Fog,0.902,0.73,0.912,0.689
+weather avg_P avg_R avg_mAP50 avg_mAP50-95
+, Rain,0.821,0.83,0.831,0.601
+weather avg_P avg_R avg_mAP50 avg_mAP50-95
+, Sand,0.895,0.73,0.912,0.701
+weather avg_P avg_R avg_mAP50 avg_mAP50-95
+, Snow,0.855,0.73,0.870,0.662
