@@ -28,15 +28,15 @@ pandas>=1.1.4
 seaborn>=0.11.0
 
 # Export ----------------------------------------------------------------------
-# coremltools>=6.0  # CoreML export
-# onnx>=1.10.0  # ONNX export
-# onnx-simplifier>=0.4.1  # ONNX simplifier
-# nvidia-pyindex  # TensorRT export
-# nvidia-tensorrt  # TensorRT export
-# scikit-learn<=1.1.2  # CoreML quantization
-# tensorflow>=2.4.0,<=2.13.1  # TF exports (-cpu, -aarch64, -macos)
-# tensorflowjs>=3.9.0  # TF.js export
-# openvino-dev>=2023.0  # OpenVINO export
+coremltools>=6.0  # CoreML export
+onnx>=1.10.0  # ONNX export
+onnx-simplifier>=0.4.1  # ONNX simplifier
+nvidia-pyindex  # TensorRT export
+nvidia-tensorrt  # TensorRT export
+scikit-learn<=1.1.2  # CoreML quantization
+tensorflow>=2.4.0,<=2.13.1  # TF exports (-cpu, -aarch64, -macos)
+tensorflowjs>=3.9.0  # TF.js export
+openvino-dev>=2023.0  # OpenVINO export
 
 # Deploy ----------------------------------------------------------------------
 setuptools>=70.0.0 # Snyk vulnerability fix
@@ -47,3 +47,6 @@ setuptools>=70.0.0 # Snyk vulnerability fix
 # mss  # screenshots
 # albumentations>=1.0.3
 # pycocotools>=2.0.6  # COCO mAP
+
+
+ # ffmpeg 5.1.2-gpl_h8dda1f0_106 --> 4.2.3-h167e202_0 

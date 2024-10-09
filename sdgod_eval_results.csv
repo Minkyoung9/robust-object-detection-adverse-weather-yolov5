@@ -1,0 +1,7 @@
+Class,Precision,Recall,mAP50,mAP50-95
+pedestrian,0,0,0,0
+car,0,0,0,0
+truck,0,0,0,0
+bus,0,0,0,0
+motorcycle,0,0,0,0
+bicycle,0,0,0,0

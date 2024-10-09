@@ -348,7 +348,7 @@ def copy_attr(a, b, include=(), exclude=()):
             setattr(a, k, v)
 
 
-def smart_optimizer(model, name="Adam", lr=0.001, momentum=0.9, decay=1e-5):
+def smart_optimizer(model, name, lr=0.001, momentum=0.9, decay=1e-5):
     """
     Initializes YOLOv5 smart optimizer with 3 parameter groups for different decay configurations.
 
@@ -385,7 +385,7 @@ def smart_optimizer(model, name="Adam", lr=0.001, momentum=0.9, decay=1e-5):
     return optimizer
 
 
-def smart_hub_load(repo="ultralytics/yolov5", model="yolov5s", **kwargs):
+def smart_hub_load(repo="ultralytics/yolov5", model="yolov5m", **kwargs):
     """YOLOv5 torch.hub.load() wrapper with smart error handling, adjusting torch arguments for compatibility."""
     if check_version(torch.__version__, "1.9.1"):
         kwargs["skip_validation"] = True  # validation causes GitHub API rate limit errors
@@ -397,7 +397,7 @@ def smart_hub_load(repo="ultralytics/yolov5", model="yolov5s", **kwargs):
         return torch.hub.load(repo, model, force_reload=True, **kwargs)
 
 
-def smart_resume(ckpt, optimizer, ema=None, weights="yolov5s.pt", epochs=300, resume=True):
+def smart_resume(ckpt, optimizer, ema=None, weights="yolov5m.pt", epochs=300, resume=True):
     """Resumes training from a checkpoint, updating optimizer, ema, and epochs, with optional resume verification."""
     best_fitness = 0.0
     start_epoch = ckpt["epoch"] + 1

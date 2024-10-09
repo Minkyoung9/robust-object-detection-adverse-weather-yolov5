@@ -1,0 +1,21 @@
+path: ../dataset/Foggy_Driving # dataset root dir
+train: train # train images (relative to 'path')
+val: test # val images (relative to 'path') 
+
+# YOLOv5는 자동으로 하위 폴더에 있는 모든 이미지 파일을 찾아 처리함.
+
+# Classes
+nc: 8 # Number of classes
+
+names:
+  0: pedestrian
+  1: car
+  2: truck
+  3: bus
+  4: motorcycle
+  5: bicycle
+  6: traffic light
+  7: traffic sign
+
+
+    
