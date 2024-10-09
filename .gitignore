@@ -264,4 +264,4 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
-.cometml-runs/
+.cometml-runs/*
