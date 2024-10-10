@@ -20,8 +20,15 @@ Using 'Yolov5m.pt' pre-trained weights
 Example
     python train_v4.py --data bdd100k2.yaml --weights yolov5m.pt --img 640 --epochs 50 --batch-size 8 --image_weights
 
+### Val
+[Result.png](https://github.com/Minkyoung9/robust-object-detection-adverse-weather-yolov5/blob/539c43841a1716af89561c06c25df431465769d5/resource/results.png)
+
 ### Evaluation
     python yolov5/detect.py --weights yolov5/runs/train/exp4/weights/best.pt --source dataset/DAWN/val --img 640 --project yolov5/runs/test
+<<<<<<< HEAD
+=======
+
+>>>>>>> fb07ee0786e03dacaa87547996254c3ace423d88
 
 
 <div align="center">
