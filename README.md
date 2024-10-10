@@ -23,6 +23,9 @@ Example
     python train_v4.py --data bdd100k2.yaml --weights yolov5m.pt --img 640 --epochs 50 --batch-size 8 --image_weights
 
 ### Evaluation
+Example
+
+
     python yolov5/detect.py --weights yolov5/runs/train/exp4/weights/best.pt --source dataset/DAWN/val --img 640 --project yolov5/runs/test
 
 
