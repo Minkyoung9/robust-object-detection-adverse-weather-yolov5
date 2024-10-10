@@ -14,7 +14,12 @@ Using '[Yolov5m.pt](https://github.com/ultralytics/yolov5/releases/download/v7.0
 
 
 ## How To Run ✨
-
+install
+```bash
+git clone https://github.com/ultralytics/yolov5  # clone
+cd yolov5
+pip install -r requirements.txt  # install
+```
 
 ### Train
 Example
