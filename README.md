@@ -16,7 +16,9 @@ Using 'Yolov5m.pt' pre-trained weights
 
 
 ### Train
-Example
+Example\
+
+
     python train_v4.py --data bdd100k2.yaml --weights yolov5m.pt --img 640 --epochs 50 --batch-size 8 --image_weights
 
 ### Evaluation
