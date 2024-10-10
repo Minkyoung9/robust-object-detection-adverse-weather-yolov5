@@ -1,7 +1,4 @@
-# Robust-Dbject-Detection-adverse-weather-Yolov5
-
-
-## Robustness object detection in adverse weather using yolov5
+# Robustness object detection in adverse weather using yolov5
 
 <div align="center">
   <img width="100%" src="https://github.com/Minkyoung9/robust-object-detection-adverse-weather-yolov5/blob/1acc5fdb0f87f2b6cb978e7d297408d93199322d/resource/rain_storm-203.jpg">
@@ -13,6 +10,9 @@
 
 ### Model
 Using 'Yolov5m.pt' pre-trained weights
+
+---
+## How To Run
 
 
 ### Train
