@@ -9,7 +9,7 @@
  - [DAWN](https://data.mendeley.com/datasets/766ygrbt8y/3)(Test)
 
 ### Model
-Using 'Yolov5m.pt' pre-trained weights
+Using '[Yolov5m.pt](https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5m.pt)' pre-trained weights
 
 
 
