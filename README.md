@@ -24,7 +24,7 @@ Example
 
 
 <div align="center">
-  <img width="100%" src="https://vscode.dev/github/Minkyoung9/robust-object-detection-adverse-weather-yolov5/blob/main/resource/results.png">
+  <img width="100%" src="https://github.com/Minkyoung9/robust-object-detection-adverse-weather-yolov5/blob/0e0e80da5730d62bca5ca5392f405a7c6579b6b6/resource/results.png">
 </div>
 
 
