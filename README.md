@@ -11,8 +11,9 @@
 ### Model
 Using 'Yolov5m.pt' pre-trained weights
 
----
-## How To Run
+
+
+## How To Run ✨
 
 
 ### Train
