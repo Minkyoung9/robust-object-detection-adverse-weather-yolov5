@@ -218,7 +218,7 @@ class BaseModel(nn.Module):
 class DetectionModel(BaseModel):
     """YOLOv5 detection model class for object detection tasks, supporting custom configurations and anchors."""
 
-    def __init__(self, cfg="yolov5s.yaml", ch=3, nc=None, anchors=None):
+    def __init__(self, cfg="yolov5m.yaml", ch=3, nc=None, anchors=None):
         """Initializes YOLOv5 model with configuration file, input channels, number of classes, and custom anchors."""
         super().__init__()
         if isinstance(cfg, dict):
@@ -419,8 +419,8 @@ def parse_model(d, ch):
             C3Ghost,
             nn.ConvTranspose2d,
             DWConvTranspose2d,
-            C3x,
-        }:
+            C3x}:
+            
             c1, c2 = ch[f], args[0]
             if c2 != no:  # if not output
                 c2 = make_divisible(c2 * gw, ch_mul)
@@ -429,23 +429,23 @@ def parse_model(d, ch):
             if m in {BottleneckCSP, C3, C3TR, C3Ghost, C3x}:
                 args.insert(2, n)  # number of repeats
                 n = 1
-        elif m is nn.BatchNorm2d:
-            args = [ch[f]]
-        elif m is Concat:
-            c2 = sum(ch[x] for x in f)
-        # TODO: channel, gw, gd
-        elif m in {Detect, Segment}:
-            args.append([ch[x] for x in f])
-            if isinstance(args[1], int):  # number of anchors
-                args[1] = [list(range(args[1] * 2))] * len(f)
-            if m is Segment:
-                args[3] = make_divisible(args[3] * gw, ch_mul)
-        elif m is Contract:
-            c2 = ch[f] * args[0] ** 2
-        elif m is Expand:
-            c2 = ch[f] // args[0] ** 2
-        else:
-            c2 = ch[f]
+            elif m is nn.BatchNorm2d:
+                args = [ch[f]]
+            elif m is Concat:
+                c2 = sum(ch[x] for x in f)
+            # TODO: channel, gw, gd
+            elif m in {Detect, Segment}:
+                args.append([ch[x] for x in f])
+                if isinstance(args[1], int):  # number of anchors
+                    args[1] = [list(range(args[1] * 2))] * len(f)
+                if m is Segment:
+                    args[3] = make_divisible(args[3] * gw, ch_mul)
+            elif m is Contract:
+                c2 = ch[f] * args[0] ** 2
+            elif m is Expand:
+                c2 = ch[f] // args[0] ** 2
+            else:
+                c2 = ch[f]
 
         m_ = nn.Sequential(*(m(*args) for _ in range(n))) if n > 1 else m(*args)  # module
         t = str(m)[8:-2].replace("__main__.", "")  # module type

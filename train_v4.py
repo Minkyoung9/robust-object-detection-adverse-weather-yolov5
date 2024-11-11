@@ -98,19 +98,31 @@ RANK = int(os.getenv("RANK", -1))
 WORLD_SIZE = int(os.getenv("WORLD_SIZE", 1))
 GIT_INFO = check_git_info()
 
-# labels_to_image_weights 함수 수정
-def labels_to_image_weights(labels,nc=None, class_weights=None):
-    # 이미지별 라벨 통계 계산
-    n = len(labels)
-    weights = np.zeros(n)
+# 레이블이 없는 이미지에 대한 처리 포함
+def labels_to_image_weights(labels, nc=None, class_weights=None, default_weight=0.1):
+    """
+    Calculate image weights based on class labels and their corresponding weights.
 
-    # 이미지에 포함된 각 클래스의 가중치를 적용
+    Parameters:
+        labels (list): List of labels for each image, where each label is an array of shape (N, 2)
+                       with class IDs and optional bounding box information.
+        nc (int): Number of classes (optional).
+        class_weights (numpy array): Array of weights for each class.
+        default_weight (float): Default weight to use for images with no labels.
+
+    Returns:
+        numpy array: Weights for each image based on the labels provided.
+    """
+    n = len(labels)  # Total number of images
+    weights = np.zeros(n)  # Initialize weights array
+
+    # Calculate weights for each image based on contained classes
     for i in range(n):
-        if len(labels[i]) > 0:  # 레이블이 있는 경우
-            label_classes = labels[i][:, 0].astype(int)  # 클래스 ID 추출
-            weights[i] = class_weights[label_classes].sum()  # 클래스 가중치 합산
+        if len(labels[i]) > 0:  # If there are labels for the image
+            label_classes = labels[i][:, 0].astype(int)  # Extract class IDs
+            weights[i] = class_weights[label_classes].sum()  # Sum class weights
         else:
-            weights[i] = 0  # 레이블이 없으면 가중치 0으로 설정
+            weights[i] = default_weight  # Assign a default weight if no labels present
     
     return weights
 
@@ -583,7 +595,7 @@ def parse_opt(known=False):
     parser.add_argument("--cfg", type=str, default="models/yolov5m.yaml", help="model.yaml path")
     parser.add_argument("--data", type=str, default=ROOT / "data/bdd100k2.yaml", help="dataset.yaml path")
     parser.add_argument("--hyp", type=str, default=ROOT / "data/hyps/hyp.scratch-med.yaml", help="hyperparameters path")
-    parser.add_argument("--epochs", type=int, default=10, help="total training epochs")
+    parser.add_argument("--epochs", type=int, default=100, help="total training epochs")
     parser.add_argument("--batch-size", type=int, default=16, help="total batch size for all GPUs, -1 for autobatch")
     parser.add_argument("--imgsz", "--img", "--img-size", type=int, default=640, help="train, val image size (pixels)")
     parser.add_argument("--rect", action="store_true", help="rectangular training")
@@ -600,7 +612,7 @@ def parse_opt(known=False):
     parser.add_argument("--bucket", type=str, default="", help="gsutil bucket")
     parser.add_argument("--cache", type=str, nargs="?", const="ram", help="image --cache ram/disk")
     parser.add_argument("--image_weights", action="store_true", help="use weighted image selection for training")
-    parser.add_argument("--device", default="2", help="cuda device, i.e. 0 or 0,1,2,3 or cpu")
+    parser.add_argument("--device", default="3", help="cuda device, i.e. 0 or 0,1,2,3 or cpu")
     parser.add_argument("--multi_scale", action="store_true", help="vary img-size +/- 50%%")
     parser.add_argument("--single-cls", action="store_true", help="train multi-class data as single-class")
     parser.add_argument("--optimizer", type=str, choices=["SGD", "Adam", "AdamW"], default="SGD", help="optimizer")
@@ -612,7 +624,7 @@ def parse_opt(known=False):
     parser.add_argument("--quad", action="store_true", help="quad dataloader")
     parser.add_argument("--cos-lr", action="store_true", help="cosine LR scheduler")
     parser.add_argument("--label-smoothing", type=float, default=0.0, help="Label smoothing epsilon")
-    parser.add_argument("--patience", type=int, default=10, help="EarlyStopping patience (epochs without improvement)")
+    parser.add_argument("--patience", type=int, default=100, help="EarlyStopping patience (epochs without improvement)")
     parser.add_argument("--freeze", nargs="+", type=int, default=[0], help="Freeze layers: backbone=10, first3=0 1 2")
     parser.add_argument("--save-period", type=int, default=-1, help="Save checkpoint every x epochs (disabled if < 1)")
     parser.add_argument("--seed", type=int, default=0, help="Global training seed")
@@ -706,11 +718,11 @@ def main(opt, callbacks=Callbacks()):
     else:
         # Hyperparameter evolution metadata (including this hyperparameter True-False, lower_limit, upper_limit)
         meta = {
-            "lr0": (False, 1e-5, 1e-2),  # initial learning rate (SGD=1E-2, Adam=1E-3)
+            "lr0": (True, 1e-5, 1e-2),  # initial learning rate (SGD=1E-2, Adam=1E-3)
             "lrf": (False, 0.1, 1.0),  # final OneCycleLR learning rate (lr0 * lrf)
-            "momentum": (False, 0.6, 0.98),  # SGD momentum/Adam beta1
-            "weight_decay": (False, 0.0005, 0.001),  # optimizer weight decay
-            "warmup_epochs": (False, 2.0, 5.0),  # warmup epochs (fractions ok)
+            "momentum": (True, 0.6, 0.98),  # SGD momentum/Adam beta1
+            "weight_decay": (True, 0.0, 0.98),  # optimizer weight decay
+            "warmup_epochs": (False, 0.0, 5.0),  # warmup epochs (fractions ok)
             "warmup_momentum": (False, 0.0, 0.95),  # warmup initial momentum
             "warmup_bias_lr": (False, 0.0, 0.2),  # warmup initial bias lr
             "box": (False, 0.02, 0.2),  # box loss gain
@@ -721,7 +733,7 @@ def main(opt, callbacks=Callbacks()):
             "iou_t": (False, 0.1, 0.7),  # IoU training threshold
             "anchor_t": (False, 2.0, 8.0),  # anchor-multiple threshold
             "anchors": (False, 2.0, 10.0),  # anchors per output grid (0 to ignore)
-            "fl_gamma": (False, 0.5, 1.5),  # focal loss gamma (efficientDet default gamma=1.5)
+            "fl_gamma": (False, 0.0, 2.0),  # focal loss gamma (efficientDet default gamma=1.5)
             "hsv_h": (True, 0.0, 0.1),  # image HSV-Hue augmentation (fraction)
             "hsv_s": (True, 0.0, 0.9),  # image HSV-Saturation augmentation (fraction)
             "hsv_v": (True, 0.0, 0.9),  # image HSV-Value augmentation (fraction)

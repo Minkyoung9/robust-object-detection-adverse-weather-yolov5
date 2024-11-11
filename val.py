@@ -523,7 +523,7 @@ def parse_opt():
     parser.add_argument("--iou-thres", type=float, default=0.6, help="NMS IoU threshold")
     parser.add_argument("--max-det", type=int, default=300, help="maximum detections per image")
     parser.add_argument("--task", default="val", help="train, val, test, speed or study")
-    parser.add_argument("--device", default="2", help="cuda device, i.e. 0 or 0,1,2,3 or cpu")
+    parser.add_argument("--device", default="4", help="cuda device, i.e. 0 or 0,1,2,3 or cpu")
     parser.add_argument("--workers", type=int, default=4, help="max dataloader workers (per RANK in DDP mode)")
     parser.add_argument("--single-cls", action="store_true", help="treat as single-class dataset")
     parser.add_argument("--augment", action="store_true", help="augmented inference")
@@ -539,7 +539,7 @@ def parse_opt():
     parser.add_argument("--dnn", action="store_true", help="use OpenCV DNN for ONNX inference")
     opt = parser.parse_args()
     opt.data = check_yaml(opt.data)  # check YAML
-    opt.save_json |= opt.data.endswith("yolov5m.yaml")
+    opt.save_json |= opt.data.endswith("custom.yaml")
     opt.save_txt |= opt.save_hybrid
     print_args(vars(opt))
     return opt
