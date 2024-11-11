@@ -240,12 +240,7 @@ class C3(nn.Module):
         self.cv1 = Conv(c1, c_, 1, 1)
         self.cv2 = Conv(c1, c_, 1, 1)
         self.cv3 = Conv(2 * c_, c2, 1)  # optional act=FReLU(c2)
-        self.m = nn.Sequential(
-            *(nn.Sequential(
-                Bottleneck(c_, c_, shortcut, g, e=1.0)
-                          ) for _ in range(n)) #Dropout 추가  nn.Dropout(0.2)
-                           )
-        # self.m = nn.Sequential(*(Bottleneck(c_, c_, shortcut, g, e=1.0) for _ in range(n))) # original
+        self.m = nn.Sequential(*(Bottleneck(c_, c_, shortcut, g, e=1.0) for _ in range(n))) # original
         
     def forward(self, x):
         """Performs forward propagation using concatenated outputs from two convolutions and a Bottleneck sequence."""

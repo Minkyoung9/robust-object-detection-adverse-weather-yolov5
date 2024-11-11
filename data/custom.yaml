@@ -1,7 +1,6 @@
-path: /home/intern/minkyoung/dataset/cityscapes/leftImg8bit # dataset root dir
-train: train/ # train images 
-val: val/ # val images
-
+path: /home/intern/minkyoung/dataset
+train: BDD100k/train # train images (relative to 'path')
+val: DAWN/ # val images (relative to 'path') 
 
 # Classes
 nc: 8 # Number of classes

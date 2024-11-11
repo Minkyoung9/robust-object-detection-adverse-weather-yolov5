@@ -265,3 +265,6 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 .cometml-runs/
+runs/convert_pt_2_pth.py
+runs/test/*
+runs/val/*

@@ -373,8 +373,8 @@ def train(hyp, opt, device, callbacks):
             dataset.indices = random.choices(range(dataset.n), weights=iw, k=dataset.n)  # rand weighted idx
 
         # Update mosaic border (optional)
-        # b = int(random.uniform(0.25 * imgsz, 0.75 * imgsz + gs) // gs * gs)
-        # dataset.mosaic_border = [b - imgsz, -b]  # height, width borders
+        b = int(random.uniform(0.25 * imgsz, 0.75 * imgsz + gs) // gs * gs)
+        dataset.mosaic_border = [b - imgsz, -b]  # height, width borders
 
         mloss = torch.zeros(3, device=device)  # mean losses
         if RANK != -1:
@@ -564,10 +564,10 @@ def parse_opt(known=False):
         - Tutorial: https://docs.ultralytics.com/yolov5/tutorials/train_custom_data
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument("--weights", type=str, default=ROOT / "yolov5l.pt", help="initial weights path")
+    parser.add_argument("--weights", type=str, default=ROOT / "yolov5m.pt", help="initial weights path")
     parser.add_argument("--cfg", type=str, default="yolov5m.yaml", help="model.yaml path")
-    parser.add_argument("--data", type=str, default=ROOT / "data/coco128.yaml", help="dataset.yaml path")
-    parser.add_argument("--hyp", type=str, default=ROOT / "data/hyps/hyp.scratch-low.yaml", help="hyperparameters path")
+    parser.add_argument("--data", type=str, default=ROOT / "data/bdd100k2.yaml", help="dataset.yaml path")
+    parser.add_argument("--hyp", type=str, default=ROOT / "data/hyps/hyp.scratch-med.yaml", help="hyperparameters path")
     parser.add_argument("--epochs", type=int, default=100, help="total training epochs")
     parser.add_argument("--batch-size", type=int, default=16, help="total batch size for all GPUs, -1 for autobatch")
     parser.add_argument("--imgsz", "--img", "--img-size", type=int, default=640, help="train, val image size (pixels)")
@@ -585,7 +585,7 @@ def parse_opt(known=False):
     parser.add_argument("--bucket", type=str, default="", help="gsutil bucket")
     parser.add_argument("--cache", type=str, nargs="?", const="ram", help="image --cache ram/disk")
     parser.add_argument("--image-weights", action="store_true", help="use weighted image selection for training")
-    parser.add_argument("--device", default="2", help="cuda device, i.e. 0 or 0,1,2,3 or cpu")
+    parser.add_argument("--device", default="3", help="cuda device, i.e. 0 or 0,1,2,3 or cpu")
     parser.add_argument("--multi-scale", action="store_true", help="vary img-size +/- 50%%")
     parser.add_argument("--single-cls", action="store_true", help="train multi-class data as single-class")
     parser.add_argument("--optimizer", type=str, choices=["SGD", "Adam", "AdamW"], default="SGD", help="optimizer")
@@ -691,7 +691,7 @@ def main(opt, callbacks=Callbacks()):
     else:
         # Hyperparameter evolution metadata (including this hyperparameter True-False, lower_limit, upper_limit)
         meta = {
-            "lr0": (False, 1e-5, 1e-1),  # initial learning rate (SGD=1E-2, Adam=1E-3)
+            "lr0": (False, 1e-5, 1e-2),  # initial learning rate (SGD=1E-2, Adam=1E-3)
             "lrf": (False, 0.01, 1.0),  # final OneCycleLR learning rate (lr0 * lrf)
             "momentum": (False, 0.6, 0.98),  # SGD momentum/Adam beta1
             "weight_decay": (False, 0.0, 0.001),  # optimizer weight decay

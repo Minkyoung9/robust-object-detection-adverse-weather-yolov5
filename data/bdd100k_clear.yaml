@@ -1,0 +1,18 @@
+path: /home/intern/minkyoung/dataset
+train: BDD100k/clear_only/clear_weather_annotations_train.txt # train images (relative to 'path')
+val: BDD100k/clear_only/clear_weather_annotations_val.txt # val images (relative to 'path') 
+# Classes
+nc: 8 # Number of classes
+
+names:
+  0: pedestrian
+  1: car
+  2: truck
+  3: bus
+  4: motorcycle
+  5: bicycle
+  6: traffic light
+  7: traffic sign
+
+
+    
